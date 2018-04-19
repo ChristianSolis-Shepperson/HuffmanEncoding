@@ -13,7 +13,7 @@ public abstract class Node implements Comparable<Node>{
 	//returns difference between node and parameter given
 	public int compareTo(Node that) {
 		
-		return this.weight - that.weight;
+		return -1;
 	}
 
 }
