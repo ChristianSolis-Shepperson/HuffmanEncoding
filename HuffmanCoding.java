@@ -82,11 +82,19 @@ public class HuffmanCoding {
 			Leaf temp = new Leaf(letter, "", w);
 			pQueue.add(temp);
 		}
-		Node n1 = pQueue.remove();
-		Node n2 = pQueue.remove();
-		int value  = n1.weight + n2.weight;
-		InternalNode internalNode = new InternalNode(value,n1,n2);
-		
+		int pQLength = pQueue.size();
+		for(int i = 0; i < pQLength; i++){
+			Node n1 = pQueue.remove();
+			Node n2 = pQueue.remove();
+			int value  = n1.weight + n2.weight;
+			InternalNode internalNode = new InternalNode(value,n1,n2);
+			internalNode.setLetter(n1.letter + n2.letter);
+			internalNode.getLeft().addBit("0");
+			internalNode.getRight().addBit("1");
+			pQueue.add(internalNode);
+		}
+
+
 	}
 
 }

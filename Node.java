@@ -24,4 +24,8 @@ public abstract class Node implements Comparable<Node>{
 		return this.weight - that.weight;
 	}
 
+	public String getLetter(Node node){
+		return node.letter;
+	}
+
 }

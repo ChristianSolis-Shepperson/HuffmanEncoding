@@ -17,7 +17,16 @@ public class Leaf extends Node implements Comparable<Node> {
 	@Override
 	//Calls Node subclass to add a bit to the sequence as the Huffman Tree is being built
 	public void addBit(String s) {
+		this.bitCode = s;
 		
 	}
+	public void setLetter(String s){
+		this.letter = s;
+	}
+
+	public String getLetter(Node node){
+		return node.letter;
+	}
+
 
 }
