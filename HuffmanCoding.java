@@ -79,8 +79,9 @@ public class HuffmanCoding {
 		Iterator it = table.entrySet().iterator();
 		while(it.hasNext()) {
 			HashMap.Entry pair = (HashMap.Entry) it.next();
-			
-			temp = new Leaf();
+			int w = (int) pair.getValue();
+			String letter = (String) pair.getKey();
+			temp = new Leaf(letter, "", w);
 		}
 		
 		
