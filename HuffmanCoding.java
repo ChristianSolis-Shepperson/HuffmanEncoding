@@ -9,10 +9,8 @@ import java.util.HashMap;
 
 public class HuffmanCoding {
 
-	PriorityQueue<Node> pQueue;
-	static Leaf temp;
-
-	public static String getTextFromFile(String filename) {
+	PriorityQueue<Node> pQueue = new PriorityQueue<>();
+	public String getTextFromFile(String filename) {
 		BufferedReader br = null;
 		FileReader fr = null;
 		String textInFile = "";
@@ -53,7 +51,7 @@ public class HuffmanCoding {
 		return textInFile;
 	}
 
-	public static HashMap<String, Integer> getLookupTable(String s) {
+	public HashMap<String, Integer> getLookupTable(String s) {
 		HashMap<String, Integer> lookupTable = new HashMap<String, Integer>();
 
 		for (char c : s.toCharArray()) {
@@ -71,7 +69,7 @@ public class HuffmanCoding {
 		return lookupTable;
 	}
 
-	public static void huffmanEncode(String filename) {
+	public void huffmanEncode(String filename) {
 		// TODO Auto-generated method stub
 		String rawText = getTextFromFile(filename);
 		HashMap<String, Integer> table = getLookupTable(rawText);
@@ -81,20 +79,14 @@ public class HuffmanCoding {
 			HashMap.Entry pair = (HashMap.Entry) it.next();
 			int w = (int) pair.getValue();
 			String letter = (String) pair.getKey();
-			temp = new Leaf(letter, "", w);
+			Leaf temp = new Leaf(letter, "", w);
+			pQueue.add(temp);
 		}
+		Node n1 = pQueue.remove();
+		Node n2 = pQueue.remove();
+		int value  = n1.weight + n2.weight;
+		InternalNode internalNode = new InternalNode(value,n1,n2);
 		
-		
-		//create nodes using the hashmap? weight will be the value in hashmap
-		for(int i = 0; i < table.size();i++) {
-			
-			//store nodes created in priority queue
-			//PriorityQueue instance variable should be initalized to contain a Leaf Node for each different character
-		}
-		
-		
-		
-
 	}
 
 }
