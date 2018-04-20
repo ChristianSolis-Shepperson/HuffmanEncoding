@@ -83,7 +83,7 @@ public class HuffmanCoding {
 			pQueue.add(temp);
 		}
 		int pQLength = pQueue.size();
-		for(int i = 0; i < pQLength; i++){
+		for(int i = 0; i < pQLength - 1; i++){
 			Node n1 = pQueue.remove();
 			Node n2 = pQueue.remove();
 			int value  = n1.weight + n2.weight;
@@ -93,8 +93,10 @@ public class HuffmanCoding {
 			internalNode.getRight().addBit("1");
 			pQueue.add(internalNode);
 		}
-
-
+        Node lastNode = pQueue.peek();
+		System.out.print("ss");
 	}
+    String endingBitcode = "";
+
 
 }

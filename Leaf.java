@@ -2,11 +2,8 @@
 public class Leaf extends Node implements Comparable<Node> {
 
 	//Class should have two instance variables: the character and its code
-	private static int weight;
-	private String bitCode;
-	private String letter;
-	
-	public Leaf() {
+
+	public Leaf(int weight) {
 		super(weight);
 	}
 	

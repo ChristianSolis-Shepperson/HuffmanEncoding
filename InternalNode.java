@@ -1,9 +1,10 @@
 
 public class InternalNode extends Node implements Comparable<Node> {
 	
-	private Node left;
-	private Node right;
-	private String bitCode;
+	public Node left;
+	public Node right;
+	private String code="";
+
 
 	public InternalNode(int value, Node l, Node r) {
 		super(value);
@@ -14,7 +15,7 @@ public class InternalNode extends Node implements Comparable<Node> {
 	@Override
 	//Calls Node subclass to add a bit to the sequence as the Huffman Tree is being built
 	public void addBit(String s) {
-		this.bitCode = s;
+		this.code= s;
 	}
 
 	public Node getLeft() {
