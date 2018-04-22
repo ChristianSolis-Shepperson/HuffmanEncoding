@@ -4,8 +4,13 @@ import java.util.Iterator;
 
 
 import java.util.HashMap;
-import java.util.Scanner;
 
+/**
+ * This call runs the Huffman encoding algorithm.
+ * This class took 9hrs to write and 2hrs to test.
+ * @author Dillon Sykes Christian Solis-Sheperson Kimberly Jimenez
+ * @date 4.21.18
+ */
 public class HuffmanCoding {
 
 	PriorityQueue<Node> pQueue = new PriorityQueue<>();
@@ -13,12 +18,26 @@ public class HuffmanCoding {
 	HashMap<String, Integer> table = new HashMap<>();
     String rawText = "";
 
-    public int getDiffChars(){
+	/**
+	 * Method will return the number of different characters
+	 * @return the total number of different characters
+	 */
+	public int getDiffChars(){
         return mapWithBitCode.size();
     }
-    public int getTotalChars(){
+
+	/**
+	 * Method will return the number of total characters
+	 * @return the total number of characters
+	 */
+	public int getTotalChars(){
     	return rawText.length();
 	}
+
+	/**
+	 * Method will calculate the longest bit code that is in the tree
+	 * @return the longest bit code from the tree
+	 */
 	public int getMaxLengthOfCode(){
     	int longestCode = 0;
 		Iterator it = mapWithBitCode.entrySet().iterator();
@@ -32,6 +51,10 @@ public class HuffmanCoding {
 		return longestCode;
 	}
 
+	/**
+	 * Method will calculate the total length of the file / total number of characters
+	 * @return the total length of the file / total number of characters
+	 */
 	public double getAveCodeLen(){
 		double original = (double)getFileLength() / (double)getTotalChars();
 		double rounded  = Math.round(original * 100.0) / 100.0;
@@ -39,10 +62,18 @@ public class HuffmanCoding {
 
 	}
 
+	/**
+	 * Method will calculate the number of characters * 8
+	 * @return number of characters * 8
+	 */
 	public int getByteFileLen(){
     	return getTotalChars() * 8;
 	}
 
+	/**
+	 * Method will calculate the length of the file
+	 * @return the length of the file
+	 */
 	public int getFileLength(){
 		int fileLength = 0;
 		Iterator it = mapWithBitCode.entrySet().iterator();
@@ -56,6 +87,10 @@ public class HuffmanCoding {
 		return fileLength;
 	}
 
+	/**
+	 * Method will calculate the size of the reduced file compared to a file with the bytes for characters
+	 * @return size of the reduced file
+	 */
 	public double getHuffmanReduction(){
     	double i =(double) getFileLength();
     	double j = (double)getByteFileLen();
@@ -64,20 +99,13 @@ public class HuffmanCoding {
 	}
 
 
+	/**
+	 * Method will read the file and put everything in a string
+	 * @param filename the name of the file
+	 */
 	public void getTextFromFile(String filename) {
 		BufferedReader br = null;
 		FileReader fr = null;
-
-        Scanner scanner = null;
-//        try {
-//            scanner = new Scanner(new File(filename));
-//            while (scanner.hasNextLine()){
-//                rawText += scanner.nextLine();
-//            }
-//            scanner.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
 
 		try {
 
@@ -119,6 +147,12 @@ public class HuffmanCoding {
 		}
 		//return textInFile;
 	}
+
+	/**
+	 * Initiates a hashmap with all unique characters with blank values of the bitcode
+	 * @param s contains everything that is read from the file
+	 * @return hashmap with all unique characters with blank values of the bitcode
+	 */
 	public HashMap<String, String> intiHashMapWithKeys(String s){
 		HashMap<String, String> table = new HashMap<>();
 		for( char c : s.toCharArray()){
@@ -128,6 +162,12 @@ public class HuffmanCoding {
 		}
 		return table;
 	}
+
+	/**
+	 * Initiates a hashmap with each unique character and their frequencies
+	 * @param s contains everything that is read from the file
+	 * @return hashmap with each unique character and their frequencies
+	 */
 	public HashMap<String, Integer> getLookupTable(String s) {
 		HashMap<String, Integer> lookupTable = new HashMap<String, Integer>();
 
@@ -140,10 +180,14 @@ public class HuffmanCoding {
                     lookupTable.put(Character.toString(c), 1);
 			}
 		}
-		//lookupTable.put("",lookupTable.get("") + 1);
-
 		return lookupTable;
 	}
+
+	/**
+	 * Adds the bitcodes for each character in the hashmap
+	 * @param letters the character that we are looking for from the tree
+	 * @param encoding 1 or 0 added to its bitcode
+	 */
 	public void populateHashMapwWithBits(String letters, String encoding){
 		for(char c : letters.toCharArray()){
 			Iterator it = mapWithBitCode.entrySet().iterator();
@@ -157,8 +201,12 @@ public class HuffmanCoding {
 			}
 		}
 	}
+
+	/**
+	 * Method will calculate the bitcode using the Huffman Encoding Algorithm
+	 * @param filename name of file
+	 */
 	public void huffmanEncode(String filename) {
-		// TODO Auto-generated method stub
 		getTextFromFile(filename);
 		table = getLookupTable(rawText);
 		mapWithBitCode = intiHashMapWithKeys(rawText);
