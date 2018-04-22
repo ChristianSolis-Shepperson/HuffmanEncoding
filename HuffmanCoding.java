@@ -1,20 +1,83 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.PriorityQueue;
 import java.util.Iterator;
 
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class HuffmanCoding {
 
 	PriorityQueue<Node> pQueue = new PriorityQueue<>();
 	HashMap<String, String> mapWithBitCode = new HashMap<>();
-	public String getTextFromFile(String filename) {
+	HashMap<String, Integer> table = new HashMap<>();
+    String rawText = "";
+
+    public int getDiffChars(){
+        return mapWithBitCode.size();
+    }
+    public int getTotalChars(){
+    	return rawText.length();
+	}
+	public int getMaxLengthOfCode(){
+    	int longestCode = 0;
+		Iterator it = mapWithBitCode.entrySet().iterator();
+		while(it.hasNext()) {
+			HashMap.Entry pair = (HashMap.Entry) it.next();
+			String check = (String) pair.getValue();
+			if(check.length() > longestCode){
+				longestCode = check.length();
+			}
+		}
+		return longestCode;
+	}
+
+	public double getAveCodeLen(){
+		double original = (double)getFileLength() / (double)getTotalChars();
+		double rounded  = Math.round(original * 100.0) / 100.0;
+    	return rounded;
+
+	}
+
+	public int getByteFileLen(){
+    	return getTotalChars() * 8;
+	}
+
+	public int getFileLength(){
+		int fileLength = 0;
+		Iterator it = mapWithBitCode.entrySet().iterator();
+		while(it.hasNext()) {
+			HashMap.Entry pair = (HashMap.Entry) it.next();
+			String check = (String) pair.getValue();
+			int lengthOfCode = check.length();
+			int freq = table.get(pair.getKey());
+			fileLength += lengthOfCode * freq;
+		}
+		return fileLength;
+	}
+
+	public double getHuffmanReduction(){
+    	double i =(double) getFileLength();
+    	double j = (double)getByteFileLen();
+    	double temp = (i /j) * 100;
+		return Math.round(temp * 100.0) / 100.0;
+	}
+
+
+	public void getTextFromFile(String filename) {
 		BufferedReader br = null;
 		FileReader fr = null;
-		String textInFile = "";
+
+        Scanner scanner = null;
+//        try {
+//            scanner = new Scanner(new File(filename));
+//            while (scanner.hasNextLine()){
+//                rawText += scanner.nextLine();
+//            }
+//            scanner.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
 		try {
 
@@ -22,10 +85,15 @@ public class HuffmanCoding {
 			fr = new FileReader(filename);
 			br = new BufferedReader(fr);
 
-			String sCurrentLine;
+			char sCurrentLine;
+            int ch;
+			while ((ch = br.read())!= -1) {
+			    char c = (char) ch;
+			    String tmp = Character.toString(c);
+			    if(!tmp.equals("\r")){
+                    rawText += tmp;
+                }
 
-			while ((sCurrentLine = br.readLine()) != null) {
-				textInFile += sCurrentLine;
 			}
 
 		} catch (IOException e) {
@@ -49,12 +117,12 @@ public class HuffmanCoding {
 			}
 
 		}
-		return textInFile;
+		//return textInFile;
 	}
 	public HashMap<String, String> intiHashMapWithKeys(String s){
 		HashMap<String, String> table = new HashMap<>();
 		for( char c : s.toCharArray()){
-			if(!table.containsKey(Character.toString(c))){
+			if (!table.containsKey(Character.toString(c))) {
 				table.put(Character.toString(c), "");
 			}
 		}
@@ -64,16 +132,15 @@ public class HuffmanCoding {
 		HashMap<String, Integer> lookupTable = new HashMap<String, Integer>();
 
 		for (char c : s.toCharArray()) {
-
 			if (lookupTable.containsKey(Character.toString(c))) {
 				// Check to make sure this increments Integer value of existing key
 				//Call should update existing key and increment value
 				lookupTable.put(Character.toString(c), lookupTable.get(Character.toString(c)) + 1);
 			} else {
-				lookupTable.put(Character.toString(c), 1);
+                    lookupTable.put(Character.toString(c), 1);
 			}
-
 		}
+		//lookupTable.put("",lookupTable.get("") + 1);
 
 		return lookupTable;
 	}
@@ -92,8 +159,8 @@ public class HuffmanCoding {
 	}
 	public void huffmanEncode(String filename) {
 		// TODO Auto-generated method stub
-		String rawText = getTextFromFile(filename);
-		HashMap<String, Integer> table = getLookupTable(rawText);
+		getTextFromFile(filename);
+		table = getLookupTable(rawText);
 		mapWithBitCode = intiHashMapWithKeys(rawText);
 		Iterator it = table.entrySet().iterator();
 		while(it.hasNext()) {
@@ -117,9 +184,5 @@ public class HuffmanCoding {
 			internalNode.getRight().addBit("1");
 			pQueue.add(internalNode);
 		}
-        Node lastNode = pQueue.peek();
 	}
-    String endingBitcode = "";
-
-
 }
